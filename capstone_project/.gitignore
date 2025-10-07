@@ -1,0 +1,45 @@
+
+# IDE Files
+
+.DS_Store
+*.swp
+*~
+.idea/
+.vscode/
+
+# Python Environment & Compilation
+# Virtual Environment
+venv/
+env/
+
+# Compiled Python files
+__pycache__/
+*.pyc
+*.pyd
+*.o
+*.egg-info/
+
+# Pip installation files
+dist/
+build/
+# Security & Settings 
+
+# Environment/Secret Files -
+.env
+.flaskenv
+local_settings.py
+
+# Django Runtime Files
+
+# Databases
+*.log
+
+# Static files collected for production
+/static/
+
+# User-uploaded media files
+/media/
+
+# Testing & Coverage
+.coverage
+htmlcov/
