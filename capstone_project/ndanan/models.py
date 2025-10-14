@@ -66,6 +66,9 @@ class Course(models.Model):
     is_active = models.BooleanField(default=True)
     teacher = models.ForeignKey(User, on_delete=models.CASCADE, related_name='taught_courses')
 
+    def __str__(self):
+        return self.course_code
+
 
 class Material(models.Model):
     title = models.CharField(max_length=100)
@@ -74,6 +77,10 @@ class Material(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='materials')
+    uploaded_by = models.ForeignKey(User, on_delete=models.CASCADE,null=True, related_name="uploaded_materials")
+    
+    def __str__(self):
+        return self.title
 
 
 class Assignment(models.Model):
@@ -84,6 +91,11 @@ class Assignment(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     due_date = models.DateTimeField()
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='assignments')
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name="assignments")
+
+    def __str__(self):
+        return f"title:{self.title}, course:{self.course} and description:{self.description}"
+
 
 
 class CourseEnrollment(models.Model):
@@ -91,6 +103,9 @@ class CourseEnrollment(models.Model):
     student = models.ForeignKey(User, on_delete=models.CASCADE, related_name='enrolled_courses')
     enrolled_at = models.DateTimeField(auto_now_add=True)
     is_active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.course
 
 
 class Submission(models.Model):
@@ -106,6 +121,9 @@ class Submission(models.Model):
     submission_file = models.FileField(upload_to='submissions/')
     submitted_at = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self):
+        return self.status
+
 
 class Grade(models.Model):
     submission = models.OneToOneField(Submission, on_delete=models.CASCADE, related_name='grade')
@@ -113,3 +131,7 @@ class Grade(models.Model):
     feedback = models.TextField(blank=True)
     graded_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    graded_by = models.ForeignKey(User,on_delete=models.CASCADE, null=True, related_name="grades")
+
+    def __str__(self):
+        return self.score
