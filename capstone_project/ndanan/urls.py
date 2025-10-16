@@ -2,17 +2,18 @@
 from django.urls import path
 from .views.course_views import CourseDetailView, CourseListView,CourseCreateView
 from .views.material_views import MaterialDetailView, MaterialListView,MaterialCreateView
-from .views.auth_views import login_view, logout_view,register_view
-
+from .views.auth_views import login_view, logout_view,register_view, home_view
 
 urlpatterns = [
-    path("course_list/", CourseListView.as_view() , name= "Courses"),
-    path("course_detail/<int:pk>/", CourseDetailView.as_view(), name="Course details"),
+    path("", home_view, name="home"),  
+    path("course_list/", CourseListView.as_view() , name= "courses"),
+    path("course_detail/<int:pk>/", CourseDetailView.as_view(), name="course_details"),
     path("material_list/", MaterialListView.as_view(),name="Materials"),
-    path("material_detail/<int:pk>", MaterialDetailView.as_view(), name="Material details"),
+    path("material_detail/<int:pk>", MaterialDetailView.as_view(), name="material_details"),
     path("login/",login_view, name="Login"),
     path("logout/", logout_view,name="Logout"),
     path("register/", register_view, name="Register"),
-    path("course_detail/", CourseCreateView.as_view(), name="create courses" ),
-    path("material_detail/", MaterialCreateView.as_view(), name="create material")
+    path("course_create/", CourseCreateView.as_view(), name="course_create" ),
+    path("material_create/", MaterialCreateView.as_view(), name="material_create"),
+    
 ]

@@ -1,40 +1,56 @@
+{% extends "ndanan/base.html" %}
 
-{# NOTE: This template is designed to be included in course_detail.html #}
-<div class="material-list mt-3">
-    {% if materials %}
-        {% for material in materials %}
-        <div class="card mb-2">
-            <div class="card-body d-flex justify-content-between align-items-center">
-                <div>
-                    <i class="fas {% if material.is_video %}fa-video{% elif material.is_document %}fa-file-pdf{% else %}fa-book-open{% endif %} me-2"></i>
-                    <a href="{% url 'material_detail' course.pk material.pk %}" class="card-title h5 text-decoration-none">
-                        {{ material.title }}
-                    </a>
-                    <span class="badge bg-secondary ms-2">{{ material.type|default:"Lesson" }}</span>
-                </div>
+{% block title %}Materials - Ndanan{% endblock %}
 
-                <div class="d-flex align-items-center">
-                    {# STUDENT: Show completion status #}
-                    {% if user.is_student %}
-                        {% if material in user.completed_materials.all %}
-                            <span class="badge bg-success me-3"><i class="fas fa-check-circle"></i> Completed</span>
-                        {% else %}
-                            <span class="badge bg-warning text-dark me-3">Not Started</span>
-                        {% endif %}
-                    {% endif %}
-
-                    {# TEACHER/ADMIN: Quick Edit/Delete #}
-                    {% if user.is_teacher and user == course.teacher or user.is_admin %}
-                        <a href="{% url 'material_edit' course.pk material.pk %}" class="btn btn-outline-dark btn-sm me-2">Edit</a>
-                        <a href="{% url 'material_delete' course.pk material.pk %}" class="btn btn-outline-danger btn-sm">Delete</a>
-                    {% endif %}
-                </div>
-            </div>
-        </div>
-        {% endfor %}
-    {% else %}
-        <div class="alert alert-info">
-            There are no materials for this course yet.
-        </div>
+{% block content %}
+<div class="mb-6 flex justify-between items-center">
+    <h1 class="text-3xl font-bold text-gray-800">Study Materials</h1>
+    {% if user.role == "teacher" or user.role == "admin" %}
+        <a href="{% url 'material_create' %}" class="px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700">
+            Add Material
+        </a>
     {% endif %}
 </div>
+
+{% if material_list %}
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {% for material in material_list %}
+            <div class="bg-white rounded-lg shadow p-6 hover:shadow-lg">
+                <h3 class="text-xl font-bold text-gray-800 mb-2">{{ material.title }}</h3>
+                <p class="text-sm text-gray-500 mb-3">Course: {{ material.course.name }}</p>
+                <p class="text-gray-600 mb-4">{{ material.description|truncatewords:15 }}</p>
+                <div class="flex justify-between items-center">
+                    <span class="text-sm text-gray-500">By: {{ material.uploaded_by.first_name }}</span>
+                    <a href="{% url 'material_detail' material.pk %}" class="text-teal-600 hover:underline">View</a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <!-- Pagination -->
+    {% if is_paginated %}
+        <div class="mt-8 flex justify-center space-x-2">
+            {% if page_obj.has_previous %}
+                <a href="?page=1" class="px-4 py-2 border border-gray-300 rounded hover:bg-gray-50">First</a>
+                <a href="?page={{ page_obj.previous_page_number }}" class="px-4 py-2 border border-gray-300 rounded hover:bg-gray-50">Previous</a>
+            {% endif %}
+            
+            <span class="px-4 py-2 bg-teal-600 text-white rounded">{{ page_obj.number }}</span>
+            
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}" class="px-4 py-2 border border-gray-300 rounded hover:bg-gray-50">Next</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}" class="px-4 py-2 border border-gray-300 rounded hover:bg-gray-50">Last</a>
+            {% endif %}
+        </div>
+    {% endif %}
+{% else %}
+    <div class="bg-white rounded-lg shadow p-8 text-center">
+        <p class="text-gray-600 text-lg">No materials available.</p>
+        {% if user.role == "teacher" or user.role == "admin" %}
+            <a href="{% url 'material_create' %}" class="mt-4 inline-block px-6 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700">
+                Add Your First Material
+            </a>
+        {% endif %}
+    </div>
+{% endif %}
+{% endblock %}

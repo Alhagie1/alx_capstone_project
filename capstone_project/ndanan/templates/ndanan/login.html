@@ -1,110 +1,36 @@
-<!--
-FILE: accounts/templates/accounts/login.html
-PURPOSE: Login page where users enter their credentials
--->
+{% extends "ndanan/base.html" %}
 
-{% extends 'base.html' %}
-
-{% block title %}Login{% endblock %}
+{% block title %}Login - Ndanan{% endblock %}
 
 {% block content %}
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-5">
-            <div class="card shadow">
-                <div class="card-body p-5">
-                    <h2 class="text-center mb-4">Welcome Back</h2>
-                    <div class="alert alert-info mb-4">
-                        <strong>💡 Login Options</strong>
-                        <p class="mb-0">
-                            You can login using either:
-                            <br>
-                            • Your full email: <code>firstnamelastnameID@domain</code>
-                            <br>
-                             <strong class="str">OR</strong>
-                             <br>
-                            •Just your User ID: <code>12345</code>
-                        </p>
-                    </div>
-                    {% if messages %}
-                        {% for message in messages %}
-                            <div class="alert alert-{{ message.tags }} alert-dismissible fade show">
-                                {{ message }}
-                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                            </div>
-                        {% endfor %}
-                    {% endif %}
-                    <form method="post">
-                        {% csrf_token %}
-                        <div class="mb-3">
-                            <label for="username" class="form-label">
-                                Email or User ID *
-                            </label>
-                            <input 
-                                type="text" 
-                                class="form-control" 
-                                id="username" 
-                                name="username" 
-                                placeholder="Enter email or User ID"
-                                required
-                            >
-                            <small class="form-text text-muted">
-                                Example: johndoe12345@staff.school.com or 12345
-                            </small>
-                        </div>
-                        <div class="mb-3">
-                            <label for="password" class="form-label">
-                                Password *
-                            </label>
-                            <input 
-                                type="password" 
-                                class="form-control" 
-                                id="password" 
-                                name="password" 
-                                placeholder="Enter your password"
-                                required
-                            >
-                        </div>
-                        <div class="mb-3 form-check">
-                            <input 
-                                type="checkbox" 
-                                class="form-check-input" 
-                                id="remember_me" 
-                                name="remember_me"
-                            >
-                            <label class="form-check-label" for="remember_me">
-                                Remember me for 30 days
-                            </label>
-                        </div>
-                        <div class="d-grid gap-2 mb-3">
-                            <button type="submit" class="btn btn-primary btn-lg">
-                                Login
-                            </button>
-                        </div>
-                        <div class="text-center mb-3">
-                            <a href="#" class="text-muted">
-                                Forgot your password?
-                            </a>
-                        </div>
-                        <div class="text-center">
-                            <p class="mb-0">
-                                Don't have an account? 
-                                <a href="{% url 'accounts:register' %}">Create Account</a>
-                            </p>
-                        </div>
-                    </form>
-                </div>
+<div class="max-w-md mx-auto">
+    <div class="bg-white rounded-lg shadow-lg p-8">
+        <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">Sign In</h2>
+        
+        <form method="POST">
+            {% csrf_token %}
+            
+            <div class="mb-4">
+                <label class="block text-gray-700 font-medium mb-2">Email</label>
+                <input type="email" name="email" required 
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-teal-600">
             </div>
             
-            <!-- Admin Login Notice -->
-            <div class="text-center mt-3">
-                <small class="text-muted">
-                    Admin? <a href="/admin/">Login via Django Admin</a>
-                </small>
+            <div class="mb-6">
+                <label class="block text-gray-700 font-medium mb-2">Password</label>
+                <input type="password" name="password" required 
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-teal-600">
             </div>
-        </div>
+            
+            <button type="submit" class="w-full bg-teal-600 text-white py-2 rounded-lg hover:bg-teal-700 font-medium">
+                Sign In
+            </button>
+        </form>
+        
+        <p class="text-center text-gray-600 mt-4">
+            Don't have an account? 
+            <a href="{% url 'Register' %}" class="text-teal-600 hover:underline">Register here</a>
+        </p>
     </div>
 </div>
 {% endblock %}
-
-

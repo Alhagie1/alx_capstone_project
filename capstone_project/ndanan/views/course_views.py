@@ -1,7 +1,6 @@
-
 from django.urls import reverse_lazy
-from django.views.generic import ListView, DetailView,CreateView
-from ndanan.models import Course, User
+from django.views.generic import ListView, DetailView, CreateView
+from ndanan.models import Course, User, CourseEnrollment
 from django.contrib.auth.mixins import LoginRequiredMixin, AccessMixin
 from django.core.exceptions import PermissionDenied
 
@@ -14,21 +13,27 @@ class TeacherOrAdminRequiredMixin(AccessMixin):
         return super().dispatch(request, *args, **kwargs)
 
 
-#  The Course List View
-
+# The Course List View
 class CourseListView(LoginRequiredMixin, ListView):
     model = Course
     context_object_name = "course_list"
     template_name = "ndanan/course_list.html"
     paginate_by = 10
-# The queryset method that list courses based on the user's role
+
     def get_queryset(self):
         user = self.request.user
 
         if user.role == "teacher":
-            return Course.objects.filter(teacher = user)
+            return Course.objects.filter(teacher=user)
+        
         elif user.role == "student":
-            return Course.objects.filter(students = user)
+            # Get courses where student is enrolled
+            enrolled_courses = CourseEnrollment.objects.filter(
+                student=user,
+                is_active=True
+            ).values_list('course', flat=True)
+            return Course.objects.filter(id__in=enrolled_courses)
+        
         elif user.role == "admin":
             return Course.objects.all()
         
@@ -36,7 +41,6 @@ class CourseListView(LoginRequiredMixin, ListView):
 
 
 # The Course Detail view class 
-
 class CourseDetailView(LoginRequiredMixin, DetailView):
     model = Course
     context_object_name = "course_detail"
@@ -56,21 +60,28 @@ class CourseDetailView(LoginRequiredMixin, DetailView):
                 raise PermissionDenied("You are not the teacher of this course.")
         
         if user.role == "student":
-            if user in obj.students.all(): 
+            # Check if student is enrolled
+            is_enrolled = CourseEnrollment.objects.filter(
+                student=user,
+                course=obj,
+                is_active=True
+            ).exists()
+            
+            if is_enrolled:
                 return obj 
             else:
                 raise PermissionDenied("You are not enrolled in this course.")
         
         raise PermissionDenied("You do not have permission to view this course.")
 
+# The Course Creation View class
 
-class CourseCreateView(LoginRequiredMixin,TeacherOrAdminRequiredMixin, CreateView):
+class CourseCreateView(LoginRequiredMixin, TeacherOrAdminRequiredMixin, CreateView):
     model = Course
     template_name = "ndanan/course_form.html" 
     fields = ["name", "description", "course_code"] 
+    success_url = reverse_lazy("course_list")
     
-    success_url = reverse_lazy("course_detail") 
     def form_valid(self, form):
         form.instance.teacher = self.request.user
         return super().form_valid(form)
-   

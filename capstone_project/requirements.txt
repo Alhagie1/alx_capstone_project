@@ -1,0 +1,23 @@
+# Core Django
+Django==5.2.5
+djangorestframework==3.16.1
+
+# MySQL Database Driver
+mysqlclient==2.2.7
+
+# Environment variables
+python-decouple==3.8
+
+# Image processing (for profile pictures and file uploads)
+Pillow==11.3.0
+
+# Django utilities
+django-filter==25.1
+
+# Timezone support
+pytz==2025.2
+
+# Required Django dependencies
+asgiref==3.9.1
+sqlparse==0.5.3
+tzdata==2025.2

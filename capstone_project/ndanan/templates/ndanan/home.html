@@ -1,0 +1,36 @@
+{% extends "ndanan/base.html" %}
+
+{% block title %}Home - Ndanan{% endblock %}
+
+{% block content %}
+<div class="text-center py-16">
+    <h1 class="text-5xl font-bold text-gray-800 mb-4">Welcome to Ndanan</h1>
+    <p class="text-xl text-gray-600 mb-8">Your Learning Management Platform</p>
+    
+    {% if not user.is_authenticated %}
+        <div class="space-x-4">
+            <a href="{% url 'Register' %}" class="px-6 py-3 bg-teal-600 text-white rounded-lg hover:bg-teal-700 inline-block">
+                Get Started
+            </a>
+            <a href="{% url 'Login' %}" class="px-6 py-3 border border-teal-600 text-teal-600 rounded-lg hover:bg-teal-50 inline-block">
+                Sign In
+            </a>
+        </div>
+    {% else %}
+        <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+            <a href="{% url 'courses' %}" class="p-6 bg-white rounded-lg shadow hover:shadow-lg">
+                <h3 class="text-xl font-bold text-gray-800 mb-2">Courses</h3>
+                <p class="text-gray-600">View and manage your courses</p>
+            </a>
+            <a href="{% url 'Materials' %}" class="p-6 bg-white rounded-lg shadow hover:shadow-lg">
+                <h3 class="text-xl font-bold text-gray-800 mb-2">Materials</h3>
+                <p class="text-gray-600">Access study materials</p>
+            </a>
+            <a href="#" class="p-6 bg-white rounded-lg shadow hover:shadow-lg">
+                <h3 class="text-xl font-bold text-gray-800 mb-2">Profile</h3>
+                <p class="text-gray-600">Manage your account</p>
+            </a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

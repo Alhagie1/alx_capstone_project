@@ -43,3 +43,6 @@ local_settings.py
 # Testing & Coverage
 .coverage
 htmlcov/
+
+# Configuration and Secret files
+.env

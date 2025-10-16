@@ -1,90 +1,22 @@
+{% extends "ndanan/base.html" %}
 
-{% extends 'base.html' %}
-
-{% block title %}Logout{% endblock %}
+{% block title %}Logout - Ndanan{% endblock %}
 
 {% block content %}
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="card shadow">
-                <div class="card-body p-5 text-center">
-                    
-                    {% if user.is_authenticated %}
-                        <div class="mb-4">
-                            <i class="bi bi-box-arrow-right text-warning" style="font-size: 4rem;"></i>
-                        </div>
-                        
-                        <h2 class="mb-4">Confirm Logout</h2>
-                        
-                        <p class="lead mb-4">
-                            Hello, <strong>{{ user.first_name }}</strong>!
-                            <br>
-                            Are you sure you want to logout?
-                        </p>
-                        <div class="alert alert-info mb-4">
-                            <strong>Current Session:</strong>
-                            <br>
-                            <strong>Name:</strong> {{ user.first_name }} {{ user.last_name }}
-                            <br>
-                            <strong>Email:</strong> {{ user.email }}
-                            <br>
-                            <strong>Role:</strong> 
-                            <span class="badge bg-primary">{{ user.get_role_display }}</span>
-                        </div>
-                        <form method="post">
-                            {% csrf_token %}
-                            
-                            <div class="d-grid gap-2">
-                                <button type="submit" class="btn btn-danger btn-lg">
-                                    Yes, Logout
-                                </button>
-                                <a href="{% url 'home' %}" class="btn btn-secondary btn-lg">
-                                    Cancel
-                                </a>
-                            </div>
-                        </form>
-                        
-                    {% else %}
-                        <div class="mb-4">
-                            <i class="bi bi-check-circle-fill text-success" style="font-size: 4rem;"></i>
-                        </div>
-                        
-                        <h2 class="mb-4">You've Been Logged Out</h2>
-                        
-                        <p class="lead mb-4">
-                            You have successfully logged out of your account.
-                            <br>
-                            Thank you for using our platform!
-                        </p>
-                        <div class="alert alert-info mb-4">
-                            <strong>What happens now?</strong>
-                            <ul class="text-start mb-0">
-                                <li>Your session has been cleared</li>
-                                <li>You'll need to login to access your account</li>
-                                <li>Your data is safe and secure</li>
-                            </ul>
-                        </div>
-                        <div class="d-grid gap-2">
-                            <a href="{% url 'accounts:login' %}" class="btn btn-primary btn-lg">
-                                Login Again
-                            </a>
-                            <a href="{% url 'home' %}" class="btn btn-outline-secondary btn-lg">
-                                Go to Homepage
-                            </a>
-                        </div>
-                    {% endif %}
-                    
-                </div>
-            </div>
-            <div class="text-center mt-4">
-                <small class="text-muted">
-                    Having trouble? <a href="#">Contact Support</a>
-                </small>
-            </div>
-        </div>
+<div class="max-w-md mx-auto">
+    <div class="bg-white rounded-lg shadow-lg p-8 text-center">
+        <h2 class="text-3xl font-bold text-gray-800 mb-4">Logout</h2>
+        <p class="text-gray-600 mb-6">Are you sure you want to logout?</p>
+        
+        <form method="POST">
+            {% csrf_token %}
+            <button type="submit" class="px-6 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 font-medium">
+                Yes, Logout
+            </button>
+            <a href="{% url 'home' %}" class="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 font-medium inline-block ml-2">
+                Cancel
+            </a>
+        </form>
     </div>
 </div>
 {% endblock %}
-
-

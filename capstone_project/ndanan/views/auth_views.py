@@ -6,6 +6,10 @@ from ndanan.forms import RegistrationForm
 from ndanan.models import User
 
 
+
+def home_view(request):
+    return render(request, "ndanan/home.html")
+
 def generate_email(user):
     """
     Generating email from user's data
@@ -24,7 +28,7 @@ def generate_email(user):
 
 def login_view(request):
     if request.user.is_authenticated:
-        return redirect("user:profile")
+        return redirect("home")
     
     if request.method == "POST":
         email = request.POST.get("email", "").strip()
@@ -40,13 +44,13 @@ def login_view(request):
         if user is not None:
             login(request, user)
             messages.success(request, "Login Successfully!")
-            next_url = request.GET.get('next', 'user:profile')
+            next_url = request.GET.get('next', 'home')
             return redirect(next_url)
         else:
             messages.error(request, "Invalid email or password")
             return redirect("login")
         
-    return render(request, "login.html")
+    return render(request, "ndanan/login.html")
 
 
 @login_required
@@ -55,12 +59,12 @@ def logout_view(request):
         logout(request)
         messages.success(request, "Logged out successfully")
         return redirect("login")
-    return render(request, "logout.html")
+    return render(request, "ndanan/logout.html")
 
 
 def register_view(request):
     if request.user.is_authenticated:
-        return redirect("user:profile")
+        return redirect("home")
     
     if request.method == "POST":
         form = RegistrationForm(request.POST, request.FILES)
@@ -77,12 +81,12 @@ def register_view(request):
             messages.success(request, f"Welcome {user.first_name}! Registration successful.")
 
             if user.role == "teacher":
-                return redirect("teacher-dashboard")
+                return redirect("home")
             else:
-                return redirect("student-dashboard")
+                return redirect("home")
         else:
-            return redirect(request, "register.html", {"form":form})
+            return redirect(request, "ndanan/register.html", {"form":form})
     else:
         form = RegistrationForm()
 
-    return render(request, "register.html", {"form": form})
+    return render(request, "ndanan/register.html", {"form": form})
