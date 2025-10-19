@@ -6,7 +6,7 @@
 <div class="mb-6 flex justify-between items-center">
     <h1 class="text-3xl font-bold text-gray-800">Courses</h1>
     {% if user.role == "teacher" or user.role == "admin" %}
-        <a href="{% url 'course_create' %}" class="px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700">
+        <a href="{% url 'course_list' %}" class="px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700">
             Create Course
         </a>
     {% endif %}

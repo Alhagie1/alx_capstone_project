@@ -18,11 +18,11 @@
         </div>
     {% else %}
         <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-            <a href="{% url 'courses' %}" class="p-6 bg-white rounded-lg shadow hover:shadow-lg">
+            <a href="{% url 'course_list' %}" class="p-6 bg-white rounded-lg shadow hover:shadow-lg">
                 <h3 class="text-xl font-bold text-gray-800 mb-2">Courses</h3>
                 <p class="text-gray-600">View and manage your courses</p>
             </a>
-            <a href="{% url 'Materials' %}" class="p-6 bg-white rounded-lg shadow hover:shadow-lg">
+            <a href="{% url 'material_list' %}" class="p-6 bg-white rounded-lg shadow hover:shadow-lg">
                 <h3 class="text-xl font-bold text-gray-800 mb-2">Materials</h3>
                 <p class="text-gray-600">Access study materials</p>
             </a>

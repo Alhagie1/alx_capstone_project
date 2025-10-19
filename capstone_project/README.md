@@ -72,7 +72,7 @@ A comprehensive Django-based learning management system designed for educational
 
 **1. Clone the Repository**
 ```bash
-git clone https://github.com/yourusername/ndanan.git
+git clone https://github.com/Alhagie1/alx_capstone_project.git
 cd ndanan
 ```
 
@@ -449,10 +449,7 @@ Contributions are welcome! Please follow these guidelines:
 
 **Developer**: Alhagie Nyang  
 **Email**: alhagienyang13@gmail.com  
-**Project Repository**: [https://github.com/Alhagie1/ndanan](https://github.com/Alhagie1/ndanan)
-
----
-
+**Project Repository**: https://github.com/Alhagie1/alx_capstone_project.git
 ## 🙏 Acknowledgments
 
 - [Django Documentation](https://docs.djangoproject.com/)

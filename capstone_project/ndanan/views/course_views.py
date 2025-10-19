@@ -43,7 +43,7 @@ class CourseListView(LoginRequiredMixin, ListView):
 # The Course Detail view class 
 class CourseDetailView(LoginRequiredMixin, DetailView):
     model = Course
-    context_object_name = "course_detail"
+    context_object_name = "course_details"
     template_name = "ndanan/course_detail.html"
      
     def get_object(self, queryset=None):

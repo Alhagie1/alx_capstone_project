@@ -42,7 +42,7 @@ class MaterialListView(LoginRequiredMixin, ListView):
 # The Material Detail View
 class MaterialDetailView(LoginRequiredMixin, DetailView):
     model = Material
-    context_object_name = "material_detail"
+    context_object_name = "material_details"
     template_name = "ndanan/material_detail.html"
 
     def get_object(self, queryset=None):
@@ -79,7 +79,7 @@ class MaterialCreateView(LoginRequiredMixin, TeacherOrAdminRequiredMixin, Create
     context_object_name = "material"
     template_name = "ndanan/material_form.html"
     fields = ["title", "description", "course", "file"]
-    success_url = reverse_lazy("Materials")
+    success_url = reverse_lazy("material_list")
 
     def form_valid(self, form):
         form.instance.uploaded_by = self.request.user
